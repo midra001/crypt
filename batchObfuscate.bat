@@ -1,6 +1,5 @@
 @echo off
 setlocal
-rem Keep the original drag-and-drop operation; no arguments opens the new menu.
 where py >nul 2>nul
 if not errorlevel 1 (
     py -3 -c "import sys; sys.exit(sys.version_info < (3, 10))" >nul 2>nul
