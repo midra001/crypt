@@ -8,7 +8,7 @@ Install Python 3.10+, extract all files into one folder, then run:
 py -3 -m pip install -r requirements.txt
 ```
 
-Double-click `batchObfuscate.bat` for the blue-to-cyan CRYPT menu, or drop a batch file onto it to obfuscate it.
+Double-click `main.bat` for the CRYPT menu, or drop a batch file onto it to obfuscate it.
 
 ## Menu
 
@@ -18,22 +18,22 @@ Double-click `batchObfuscate.bat` for the blue-to-cyan CRYPT menu, or drop a bat
 4. **Restore:** removes the runnable header, or restores `.obf` containers from the previous version.
 5. **Pack:** retains the previous compressed/scrambled `.obf` format as an explicitly storage-only option.
 
-The main obfuscation operation now preserves the original tool's output format: the exact `FF FE 26 63 6C 73 0D 0A` header followed by the source bytes unchanged. This is **the original appearance-only technique, not stronger obfuscation or encryption**. Execution depends on Windows `cmd.exe` handling of that header; test your scripts on the target Windows version. The tool does not automatically execute outputs.
+The main obfuscation operation preserves the original tool's output format: the exact `FF FE 26 63 6C 73 0D 0A` header followed by the source bytes unchanged. This is **the original appearance-only technique, not stronger obfuscation or encryption**. Execution depends on Windows `cmd.exe` handling of that header; test your scripts on the target Windows version. The tool does not automatically execute outputs.
 
 AES encryption is separate: encrypted files cannot run until decrypted. Passwords are requested through hidden prompts. Encryption requires at least 12 characters and confirmation. There is no password recovery.
 
 ## Command line
 
 ```powershell
-py -3 bypass.py obfuscate "example.bat"
-py -3 bypass.py restore "example___.bat"
-py -3 bypass.py encrypt "private.txt"
-py -3 bypass.py decrypt "private.txt.bpaes"
-py -3 bypass.py pack "example.bat"
-py -3 bypass.py restore "example.bat.obf"
+py -3 crypt.py obfuscate "example.bat"
+py -3 crypt.py restore "example___.bat"
+py -3 crypt.py encrypt "private.txt"
+py -3 crypt.py decrypt "private.txt.bpaes"
+py -3 crypt.py pack "example.bat"
+py -3 crypt.py restore "example.bat.obf"
 ```
 
-The `legacy` command remains an alias for the original header method. The `bypass.py` filename and existing encryption/container signatures remain unchanged for compatibility. Use `-o` to choose a new output path. Existing files are never overwritten; originals are retained.
+The `legacy` command remains an alias for the original header method. The `crypt.py` filename and existing encryption/container signatures remain unchanged for compatibility. Use `-o` to choose a new output path. Existing files are never overwritten; originals are retained.
 
 ## Encryption
 
@@ -44,7 +44,7 @@ Inputs are limited to 128 MiB. Allow several times that much RAM plus roughly 12
 ## Tests
 
 ```powershell
-py -3 -m unittest -v test_bypass.py
+py -3 -m unittest -v test_crypt.py
 ```
 
 Tests check byte-for-byte compatibility with the original header, restoration, output collisions, source preservation, packing, AES round trips, and tamper detection. These checks do not establish Windows execution compatibility or console rendering; those require testing on Windows.
